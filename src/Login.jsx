@@ -15,7 +15,7 @@ const Login = ({ resetState }) => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
+  
     if (!email || !password || !displayName) {
       setError('Please fill out all fields');
       return;
@@ -23,20 +23,24 @@ const Login = ({ resetState }) => {
   
     setError('');
 
+    if (!displayName) {
+      setError('Display name cannot be empty');
+      return;
+    }
     // check if displayName already exists in Firestore
     const displayNameSnapshot = await getDocs(
       query(collection(db, 'users'), where('displayName', '==', displayName))
     );
-
+  
     if (!displayNameSnapshot.empty) {
       setError('Display name already exists');
       return;
     }
-
+  
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       sendEmailVerification(user) // send verification email
         .then(() => {
           console.log("Verification email sent!");
@@ -50,79 +54,87 @@ const Login = ({ resetState }) => {
         displayName: displayName,
         unmatchedMessages: [],
       });
-
+  
       console.log('displayName to set:', displayName); // New logging
       await user.updateProfile({
         displayName: displayName,
+      }).catch((error) => {
+        console.error('Error updating user profile:', error);
       });
-      await user.reload();
-      console.log('displayName after updateProfile:', user.displayName); // New logging
-
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      console.log(userDoc.data());
-
-      resetState(); 
+      
+      // Added a wait before reloading the user to ensure profile is updated
+      setTimeout(async () => {
+        await user.reload();
+        console.log('displayName after updateProfile:', auth.currentUser.displayName); // New logging
+  
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        console.log(userDoc.data());
+  
+        resetState(); 
+      }, 1000);
     } catch (error) {
       setError(error.message);
     }
   };
-
+  
   const handleSignIn = async (e) => {
     e.preventDefault();
-  
+
     if (!email || !password) { 
       setError('Please fill out all fields');
       return;
     }
     setError('');
-    
+
     try {
       let signInEmail = email;
-    
+      let querySnapshot;
+  
       if (!email.includes('@')) {
-        const querySnapshot = await getDocs(
+        querySnapshot = await getDocs(
           query(collection(db, 'users'), where('displayName', '==', email))
         );
-    
+
         if (!querySnapshot.empty) {
           signInEmail = querySnapshot.docs[0].data().email;
         } else {
           throw new Error('displayName not found');
         }
       }
-    
+  
       const userCredential = await signInWithEmailAndPassword(auth, signInEmail, password);
       let user = userCredential.user;
-  
+
       // Check if email is verified
       if (!user.emailVerified) {
         throw new Error('Please verify your email before signing in');
       }
-    
-      const querySnapshot = await getDocs(
+
+      querySnapshot = await getDocs(
         query(collection(db, 'users'), where('email', '==', signInEmail))
       );
-      if (!querySnapshot.empty) {
-        const displayName = querySnapshot.docs[0].data().displayName;
-        console.log('displayName to set during sign in:', displayName); // New logging
-        await user.updateProfile({
-          displayName: displayName,
-        });
-        await user.reload(); // reload user data
-  
-        // Re-fetch user data
-        user = auth.currentUser;
+
+      if (querySnapshot.empty) {
+        throw new Error('User not found');
       }
-    
+  
+      const displayName = querySnapshot.docs[0].data().displayName;
+      console.log('displayName to set during sign in:', displayName); // New logging
+      await user.updateProfile({
+        displayName: displayName,
+      });
+      await user.reload(); // reload user data
+
+      user = auth.currentUser;
+
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       console.log('displayName from Firestore:', userDoc.data().displayName); // Fetch displayName from Firestore
-    
+
       resetState();
     } catch (error) {
       setError(error.message);
     }
-  };
-  
+  };  
   
   return (
     <div className='login-page'>
