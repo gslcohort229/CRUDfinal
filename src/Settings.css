@@ -1,0 +1,158 @@
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Bruno Ace SC', cursive;
+}
+
+.home-button {
+  background-color: #000000;
+  border: none;
+  color: white;
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  margin: 20px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.home-button:hover {
+  background-color: #27f22e;
+}
+
+.settings-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.settings-list-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #f4d35e;
+  border-radius: 50%;
+  padding: 30px;
+  margin: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  height: 250px;
+}
+
+.policy-buttons {
+  list-style-type: none;
+  margin: 0 10px 0 -28px; /* Adjust these values */
+  padding: 0;
+}
+
+.notifications-button {
+  display: inline-block;
+  background-color: #ee964b;
+  color: rgb(0, 0, 0);
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Bruno Ace SC';
+  font-size: 11px;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.safety-policy-button {
+  display: inline-block;
+  background-color: #ee964b;
+  color: rgb(0, 0, 0);
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Bruno Ace SC', cursive;
+  font-size: 12px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.help-policy-button {
+  display: inline-block;
+  background-color: #ee964b;
+  color: rgb(0, 0, 0);
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Bruno Ace SC', cursive;
+  font-size: 12px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.privacy-policy-button,
+.password-button {
+  display: inline-block;
+  background-color: #ee964b;
+  color: rgb(0, 0, 0);
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Bruno Ace SC', cursive;
+  font-size: 12px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.privacy-policy-button:hover,
+.safety-policy-button:hover,
+.notifications-button:hover,
+.password-button:hover,
+.help-policy-button:hover {
+  background-color: #fd0303;
+  box-shadow: 0 12px 5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  position: relative;
+  z-index: 1001;
+  max-width: 500px;
+  max-height: 80%;
+  overflow-y: auto;
+}

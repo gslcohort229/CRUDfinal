@@ -1,0 +1,110 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%; /* Create a circular shape */
+  background-color: transparent; /* Background color for the circle */
+  border: 10px solid #000000; /* Border for the circle */
+  margin: 0 auto; /* Center the circle horizontally */
+  padding: 20px;
+  position: relative; /* Add position relative to the container */
+}
+
+.form-container .title {
+  position: absolute; /* Make the title position absolute */
+  top: 0; /* Position it at the top */
+  left: 0; /* Position it at the left */
+  right: 0; /* Position it at the right */
+  margin: auto; /* Center the title horizontally */
+  text-align: center; /* Center the title text */
+  color: #000; /* Change the title text color */
+  margin-top: 50px;
+}
+
+.title {
+  font-family: fantasy;
+  font-size: 40px;
+  color: rgb(0, 0, 0);
+  font-weight: bold; /* Add extra bold font weight */
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Add glow effect */
+}
+
+
+.white-letter {
+  color: #fff;
+}
+
+.maze-letters {
+  color: #000;
+}
+
+.title::first-letter {
+  color: white; /* Change the color of the first letter to red */
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 70px;
+}
+
+.form-container input {
+  margin: 4px;
+}
+
+.form-container button {
+  margin: 3px;
+  margin-top: 2px;
+  margin-bottom: -1px;
+  padding: 5px 12px; /* Add padding to the buttons */
+  background-color: #000000; /* Set the background color */
+  color: white; /* Set the text color */
+  border: none; /* Remove the border */
+  cursor: pointer; /* Change the cursor to a hand when hovering over the button */
+  font-size: 12px; /* Set the font size */
+  border-radius: 50%;
+  height: 40px;
+  width: 40px; /* Add rounded corners */
+  display: flex; /* Add display:flex */
+  align-items: center;
+  justify-content: center; /* Add justify-content:center */
+  transition: background-color 0.3s ease; /* Add a transition effect for the background color */
+}
+
+.form-container button:hover {
+  background-color: #ff0000; /* Change the background color when hovering over the button */
+}
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: url('/background2.jpg'); /* Add the background image */
+  background-size: cover; /* Resize the background image to cover the whole page */
+  z-index: -1; /* Set the z-index to -1 to move the background behind other elements */
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 30px; /* Add some top margin */
+  color: rgb(0, 0, 0);
+}
+
+
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: url('background2.jpg'); /* Add the background image */
+  background-size: cover; /* Resize the background image to cover the whole page */
+}
+
+
