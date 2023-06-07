@@ -76,16 +76,15 @@ const Login = ({ resetState }) => {
       setError(error.message);
     }
   };
-  
   const handleSignIn = async (e) => {
     e.preventDefault();
-
+  
     if (!email || !password) { 
       setError('Please fill out all fields');
       return;
     }
     setError('');
-
+  
     try {
       let signInEmail = email;
       let querySnapshot;
@@ -94,7 +93,7 @@ const Login = ({ resetState }) => {
         querySnapshot = await getDocs(
           query(collection(db, 'users'), where('displayName', '==', email))
         );
-
+  
         if (!querySnapshot.empty) {
           signInEmail = querySnapshot.docs[0].data().email;
         } else {
@@ -104,37 +103,47 @@ const Login = ({ resetState }) => {
   
       const userCredential = await signInWithEmailAndPassword(auth, signInEmail, password);
       let user = userCredential.user;
-
+  
       // Check if email is verified
       if (!user.emailVerified) {
         throw new Error('Please verify your email before signing in');
       }
-
+  
       querySnapshot = await getDocs(
         query(collection(db, 'users'), where('email', '==', signInEmail))
       );
-
+  
       if (querySnapshot.empty) {
         throw new Error('User not found');
       }
   
       const displayName = querySnapshot.docs[0].data().displayName;
       console.log('displayName to set during sign in:', displayName); // New logging
+  
+      // Updated code
       await user.updateProfile({
         displayName: displayName,
+      }).then(() => {
+        console.log('displayName set during sign in:', user.displayName); // Add this line
+        return user.reload();
+      }).then(() => {
+        console.log('user reloaded during sign in:', user.displayName); // Add this line
+      }).catch((error) => {
+        console.log('Error during sign in:', error);
       });
-      await user.reload(); // reload user data
-
+      // End of updated code
+  
       user = auth.currentUser;
-
+  
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       console.log('displayName from Firestore:', userDoc.data().displayName); // Fetch displayName from Firestore
-
+  
       resetState();
     } catch (error) {
       setError(error.message);
     }
   };  
+  
   
   return (
     <div className='login-page'>
