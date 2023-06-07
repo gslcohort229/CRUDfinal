@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { auth, signOut } from './firebase';
+import { auth, signOut, db } from './firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import Login from './Login';
 import Home from './Home';
 import List from './List';
@@ -14,16 +15,28 @@ import { PostHistory } from './components/Posts';
 
 const App = () => {
   const [authStatus, setAuthStatus] = useState('loading');
+  // declare the displayName state and its setter function
+  const [displayName, setDisplayName] = useState(null);
+
 
   useEffect(() => {
     console.log('Starting authentication check');
   
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         console.log('User authenticated:', user);
   
-        // code to check user's displayName
-        console.log('User Display Name: ', user.displayName);
+        // Fetch user document from Firestore
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+  
+        if (userDoc.exists()) {
+          // Get displayName from Firestore
+          const displayNameFromFirestore = userDoc.data().displayName;
+          console.log('Display Name from Firestore: ', displayNameFromFirestore);
+  
+          // Here you can set the displayName from Firestore to your app's state
+          setDisplayName(displayNameFromFirestore);
+        }
   
         // Set a flag in sessionStorage when the user is signed in
         sessionStorage.setItem('userIsActive', 'true');
@@ -48,8 +61,9 @@ const App = () => {
       unsubscribe();
     };
   }, []);
-  
 
+  console.log('displayName state set:', displayName);
+  
   // Function to handle manual sign out
   const handleSignOut = async () => {
     // Clear the flag from sessionStorage

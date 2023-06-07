@@ -46,7 +46,7 @@ const Home = ({ handleSignOut }) => {
   };
 
   const handleKeyPress = async (e) => {
-    if (e.key === 'Enter' && message.trim() && !hasUnmatchedMessage) {
+    if (e.key === 'Enter' && message.trim() && !hasUnmatchedMessage && auth.currentUser) {
       e.preventDefault();
       await handleMessage();
     }
