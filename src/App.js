@@ -11,6 +11,8 @@ import PrivacyPolicy from './PrivacyPolicy';
 import PostDetails from './components/PostDetails';
 import Chat from './Chat';
 import { PostHistory } from './components/Posts';
+import { ToastContainer } from 'react-toastify'
+
 
 
 const App = () => {
@@ -98,6 +100,7 @@ const App = () => {
 
   return (
     <Router>
+      <ToastContainer /> 
       <Routes>{renderRoutes()}</Routes>
     </Router>
   );

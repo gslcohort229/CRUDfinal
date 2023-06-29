@@ -76,6 +76,7 @@ const Login = ({ resetState }) => {
       setError(error.message);
     }
   };
+  
   const handleSignIn = async (e) => {
     e.preventDefault();
   

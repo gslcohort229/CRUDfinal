@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { auth, db } from './firebase';
@@ -7,6 +8,8 @@ import {
   addDoc,
   onSnapshot
 } from 'firebase/firestore';
+import { handleMessage } from './messageHandler'
+import 'react-toastify/dist/ReactToastify.css';
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -56,10 +59,17 @@ const Chat = () => {
     try {
       const chatRoomRef = doc(db, 'chatRooms', chatRoomId);
       await addDoc(collection(chatRoomRef, 'messages'), message);
+      
+      const isMatchFound = await handleMessage(message); // call your handleMessage function here
+  
+      if (!isMatchFound) {
+        toast.error("No match found!"); // display a pop-up message if a match isn't found
+      }
     } catch (error) {
       console.error("Failed to send message:", error);
+      toast.error("Failed to send message!"); // display a pop-up message if an error occurs
     }
-
+  
     setInputMessage('');
   };
 
